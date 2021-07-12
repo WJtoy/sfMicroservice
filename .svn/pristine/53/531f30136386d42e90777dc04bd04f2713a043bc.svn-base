@@ -1,0 +1,24 @@
+package com.kkl.kklplus.b2b.sf.http.request;
+
+import lombok.Data;
+
+/**
+ * describe:
+ *
+ * @author chenxj
+ * @date 2020/11/23
+ */
+@Data
+public class OrderOperationRequestParam extends RequestParam{
+
+    private String waybillNo;
+
+    private String taskCode;
+
+    private String operateTime;
+
+    private String content;
+
+    private Integer operateCode;
+
+}

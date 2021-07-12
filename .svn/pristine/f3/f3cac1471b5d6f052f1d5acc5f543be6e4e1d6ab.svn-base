@@ -1,0 +1,94 @@
+package com.kkl.kklplus.b2b.sf.http.utils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.kkl.kklplus.b2b.sf.http.command.OperationCommand;
+import com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties;
+import com.kkl.kklplus.b2b.sf.http.response.ResponseBody;
+import com.kkl.kklplus.b2b.sf.utils.SpringContextHolder;
+import okhttp3.*;
+import sun.misc.BASE64Encoder;
+
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.util.*;
+
+public class OkHttpUtils {
+
+    private static OkHttpClient okHttpClient = SpringContextHolder.getBean(OkHttpClient.class);
+    private static B2BSFProperties sfProperties = SpringContextHolder.getBean(B2BSFProperties.class);
+    private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+    public static <T> ResponseBody<T> postSyncGenericNew(OperationCommand command) {
+        ResponseBody<T> responseBody = null;
+        B2BSFProperties.DataSourceConfig dataSourceConfig = sfProperties.getDataSourceConfig();
+        if (dataSourceConfig != null && command != null && command.getOpCode() != null &&
+                command.getReqBody() != null && command.getReqBody().getClass().getName().equals(command.getOpCode().reqBodyClass.getName())) {
+            String reqbodyJson = gson.toJson(command.getReqBody());
+            // 系统参数
+            FormBody.Builder param = new FormBody.Builder(Charset.forName("UTF-8"));
+            try {
+                Long timestamp = System.currentTimeMillis();
+                param.add("partnerID", dataSourceConfig.getPartnerID());
+                param.add("serviceCode", command.getOpCode().serviceCode);
+                param.add("requestID",UUID.randomUUID().toString());
+                param.add("msgData", reqbodyJson);
+                param.add("timestamp", timestamp.toString());
+                //构建签名
+                String msgDigest = genDigest(timestamp.toString(),reqbodyJson, dataSourceConfig.getMd5Key());
+                param.add("msgDigest", msgDigest);
+            }catch (Exception e){
+                return new ResponseBody<>(ResponseBody.ErrorCode.DATA_PARSE_FAILURE, e);
+            }
+            String url = dataSourceConfig.getRequestMainUrl();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(param.build())
+                    .build();
+            Call call = okHttpClient.newCall(request);
+            try {
+                Response response = call.execute();
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        String responseBodyJson = response.body().string();
+                        try {
+                            responseBody = gson.fromJson(responseBodyJson, new TypeToken<ResponseBody>() {
+                            }.getType());
+                            responseBody.setOriginalJson(responseBodyJson);
+                        } catch (Exception e) {
+                            responseBody = new ResponseBody<>(ResponseBody.ErrorCode.JSON_PARSE_FAILURE, e);
+                            responseBody.setOriginalJson(responseBodyJson);
+                            return responseBody;
+                        }
+                    } else {
+                        responseBody = new ResponseBody<>(ResponseBody.ErrorCode.HTTP_RESPONSE_BODY_ERROR);
+                    }
+                } else {
+                    responseBody = new ResponseBody<>(ResponseBody.ErrorCode.HTTP_STATUS_CODE_ERROR);
+                }
+            } catch (Exception e) {
+                return new ResponseBody<>(ResponseBody.ErrorCode.REQUEST_INVOCATION_FAILURE, e);
+            }
+        } else {
+            responseBody = new ResponseBody<>(ResponseBody.ErrorCode.REQUEST_PARAMETER_FORMAT_ERROR);
+        }
+
+        return responseBody;
+    }
+
+    public static String genDigest(String timestamp, String mgsData, String md5key) throws Exception {
+        //将业务报文+时间戳+秘钥组合成需加密的字符串(注意顺序)
+        String toVerifyText = mgsData + timestamp + md5key;
+        //因业务报文中可能包含加号、空格等特殊字符，需要urlEnCode处理
+        toVerifyText = URLEncoder.encode(toVerifyText, "UTF-8");
+        //进行Md5加密
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        md5.update(toVerifyText.getBytes("UTF-8"));
+        byte[] md = md5.digest();
+        //通过BASE64生成数字签名
+        String msgDigest = new String(new BASE64Encoder().encode(md));
+        return msgDigest;
+    }
+}

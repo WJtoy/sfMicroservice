@@ -1,0 +1,10 @@
+package com.kkl.kklplus.b2b.sf.http.request;
+
+/**
+ * describe:
+ *
+ * @author chenxj
+ * @date 2020/11/23
+ */
+public class OrderOperationRequestParam extends RequestParam{
+}

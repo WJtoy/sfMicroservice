@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bdf17f1e-f766-4637-8020-0bb2d0833be5" name="Default Changelist" comment="处理工单接口">
+      <change afterPath="$PROJECT_DIR$/kklplus-b2b-sf.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:/Item/maven/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="D:\Item\maven\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1kiayFuPJAtBBjH3Qa9JvTEhqvM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="MyBatisLogPluginparameters" value="Parameters:" />
+    <property name="MyBatisLogPluginpreparing" value="Preparing:" />
+    <property name="MyBatisLogPluginrunning" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../KKLPlusB2BJDHome" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RunManager">
+    <configuration name="B2BSFApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="kklplus-b2b-sf" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.kkl.kklplus.b2b.B2BSFApplication" />
+      <option name="ACTIVE_PROFILES" value="dev" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\admin\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\public\KKLPlusB2BSF" />
+          <option name="myCopyRoot" value="D:\public\KKLPlusB2BSF" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\public\KKLPlusB2BSF" />
+          <option name="myCopyRoot" value="D:\public\KKLPlusB2BSF" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bdf17f1e-f766-4637-8020-0bb2d0833be5" name="Default Changelist" comment="" />
+      <created>1606186117234</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606186117234</updated>
+      <workItem from="1606186120507" duration="23825000" />
+      <workItem from="1606267897736" duration="21120000" />
+      <workItem from="1606354356803" duration="19207000" />
+      <workItem from="1606440685062" duration="16451000" />
+      <workItem from="1606699885794" duration="16416000" />
+      <workItem from="1606786392993" duration="1217000" />
+      <workItem from="1606872748710" duration="3098000" />
+      <workItem from="1606959130992" duration="641000" />
+      <workItem from="1607045538384" duration="1190000" />
+      <workItem from="1607131834124" duration="1197000" />
+      <workItem from="1607305102739" duration="1821000" />
+      <workItem from="1607391423543" duration="646000" />
+      <workItem from="1607477576260" duration="2078000" />
+      <workItem from="1607563921647" duration="740000" />
+      <workItem from="1607650348604" duration="1200000" />
+      <workItem from="1607909882045" duration="597000" />
+      <workItem from="1607996162565" duration="596000" />
+      <workItem from="1608082491718" duration="1234000" />
+      <workItem from="1608168796299" duration="596000" />
+      <workItem from="1608255254603" duration="1339000" />
+      <workItem from="1608514503555" duration="599000" />
+      <workItem from="1608600829548" duration="599000" />
+      <workItem from="1608687297687" duration="674000" />
+      <workItem from="1608773621761" duration="1197000" />
+      <workItem from="1608860143238" duration="684000" />
+      <workItem from="1609119195979" duration="1192000" />
+      <workItem from="1609205565545" duration="599000" />
+      <workItem from="1609292196491" duration="1194000" />
+      <workItem from="1609378450972" duration="610000" />
+      <workItem from="1609724247851" duration="1186000" />
+      <workItem from="1609810654470" duration="599000" />
+      <workItem from="1609896682867" duration="1198000" />
+      <workItem from="1609983402451" duration="599000" />
+      <workItem from="1610069703235" duration="1296000" />
+      <workItem from="1610328760251" duration="1586000" />
+      <workItem from="1610415166494" duration="1195000" />
+      <workItem from="1610501676123" duration="1247000" />
+      <workItem from="1610588125686" duration="1496000" />
+      <workItem from="1610674483712" duration="1204000" />
+      <workItem from="1610760908306" duration="1874000" />
+      <workItem from="1610933741056" duration="1215000" />
+      <workItem from="1611020145782" duration="1289000" />
+      <workItem from="1611106676684" duration="1261000" />
+      <workItem from="1611192859126" duration="1197000" />
+      <workItem from="1611279366485" duration="829000" />
+      <workItem from="1611538397747" duration="2062000" />
+      <workItem from="1611624899191" duration="1578000" />
+      <workItem from="1611711377889" duration="1247000" />
+      <workItem from="1611797842529" duration="950000" />
+      <workItem from="1611884327746" duration="1243000" />
+      <workItem from="1612143471891" duration="644000" />
+      <workItem from="1612229760240" duration="2254000" />
+      <workItem from="1612316058549" duration="599000" />
+      <workItem from="1612402844537" duration="1851000" />
+      <workItem from="1612489093060" duration="587000" />
+      <workItem from="1612502802452" duration="1792000" />
+      <workItem from="1612747644879" duration="598000" />
+      <workItem from="1613699065076" duration="641000" />
+      <workItem from="1613957981364" duration="599000" />
+      <workItem from="1614044166027" duration="1197000" />
+      <workItem from="1614130644475" duration="599000" />
+      <workItem from="1614216966909" duration="598000" />
+      <workItem from="1614303378152" duration="599000" />
+      <workItem from="1614390176350" duration="1363000" />
+      <workItem from="1614562779902" duration="599000" />
+      <workItem from="1614649261660" duration="1803000" />
+      <workItem from="1614735551648" duration="834000" />
+      <workItem from="1614822137046" duration="1198000" />
+      <workItem from="1614908419097" duration="600000" />
+      <workItem from="1614995064156" duration="599000" />
+      <workItem from="1615167567999" duration="604000" />
+      <workItem from="1615253998748" duration="598000" />
+      <workItem from="1615340765980" duration="787000" />
+      <workItem from="1615426879001" duration="597000" />
+      <workItem from="1615513216043" duration="1097000" />
+      <workItem from="1615599573120" duration="599000" />
+      <workItem from="1615772489136" duration="601000" />
+      <workItem from="1615858796188" duration="1196000" />
+      <workItem from="1615945261000" duration="590000" />
+      <workItem from="1616031711493" duration="598000" />
+      <workItem from="1616118172688" duration="656000" />
+      <workItem from="1616204559940" duration="597000" />
+      <workItem from="1616377084054" duration="632000" />
+      <workItem from="1616463411848" duration="599000" />
+      <workItem from="1616636216865" duration="597000" />
+      <workItem from="1616722254749" duration="1198000" />
+      <workItem from="1616808851802" duration="585000" />
+      <workItem from="1616981740867" duration="1196000" />
+      <workItem from="1617068302136" duration="1237000" />
+      <workItem from="1617154436698" duration="612000" />
+      <workItem from="1617240796773" duration="1235000" />
+      <workItem from="1617254105284" duration="628000" />
+      <workItem from="1617327509959" duration="592000" />
+      <workItem from="1617673038187" duration="599000" />
+      <workItem from="1617759549439" duration="601000" />
+      <workItem from="1617845968715" duration="579000" />
+      <workItem from="1617932245696" duration="599000" />
+      <workItem from="1618018619096" duration="1612000" />
+      <workItem from="1620265183115" duration="595000" />
+      <workItem from="1620281904543" duration="599000" />
+      <workItem from="1620351690744" duration="620000" />
+      <workItem from="1620437812707" duration="601000" />
+      <workItem from="1620608825819" duration="599000" />
+      <workItem from="1620695354264" duration="597000" />
+      <workItem from="1620781577500" duration="877000" />
+      <workItem from="1620867902658" duration="590000" />
+      <workItem from="1620954291689" duration="599000" />
+      <workItem from="1621213592412" duration="599000" />
+      <workItem from="1621323683952" duration="628000" />
+      <workItem from="1621326256423" duration="588000" />
+      <workItem from="1621386730474" duration="598000" />
+      <workItem from="1621472804219" duration="597000" />
+      <workItem from="1621559373063" duration="599000" />
+      <workItem from="1621574135188" duration="599000" />
+      <workItem from="1621584504340" duration="602000" />
+      <workItem from="1621818432161" duration="597000" />
+      <workItem from="1621904877833" duration="599000" />
+      <workItem from="1621991426561" duration="599000" />
+      <workItem from="1622077321689" duration="597000" />
+    </task>
+    <task id="LOCAL-00001" summary="处理工单接口">
+      <created>1606440798934</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606440798934</updated>
+    </task>
+    <task id="LOCAL-00002" summary="处理工单接口">
+      <created>1606457798722</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1606457798722</updated>
+    </task>
+    <task id="LOCAL-00003" summary="处理工单接口">
+      <created>1606458384052</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1606458384052</updated>
+    </task>
+    <task id="LOCAL-00004" summary="处理工单接口">
+      <created>1606458610740</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1606458610740</updated>
+    </task>
+    <task id="LOCAL-00005" summary="处理工单接口">
+      <created>1606705583012</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1606705583013</updated>
+    </task>
+    <task id="LOCAL-00006" summary="处理工单接口">
+      <created>1606706292995</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1606706292995</updated>
+    </task>
+    <task id="LOCAL-00007" summary="处理工单接口">
+      <created>1606706492095</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1606706492095</updated>
+    </task>
+    <task id="LOCAL-00008" summary="处理工单接口">
+      <created>1606707795950</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1606707795950</updated>
+    </task>
+    <task id="LOCAL-00009" summary="处理工单接口">
+      <created>1606707836924</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1606707836924</updated>
+    </task>
+    <task id="LOCAL-00010" summary="处理工单接口">
+      <created>1606727668859</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1606727668859</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="处理工单接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="处理工单接口" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1612417530068">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1612417530068" />
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1620440216525">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1620440216525" />
+    <state x="773" y="365" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614674890880">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="773" y="365" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1614674890880" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/service/OrderHandleService.java</url>
+          <line>198</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/http/utils/OkHttpUtils.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/service/OrderHandleService.java</url>
+          <line>261</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/http/utils/OkHttpUtils.java</url>
+          <line>161</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/http/utils/OkHttpUtils.java</url>
+          <line>169</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/http/utils/OkHttpUtils.java</url>
+          <line>174</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/http/utils/OkHttpUtils.java</url>
+          <line>180</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/service/OrderHandleService.java</url>
+          <line>166</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/service/OrderHandleService.java</url>
+          <line>180</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/http/utils/HttpUtils.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/service/OrderHandleService.java</url>
+          <line>349</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/http/utils/HttpUtils.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kkl/kklplus/b2b/sf/http/utils/HttpUtils.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

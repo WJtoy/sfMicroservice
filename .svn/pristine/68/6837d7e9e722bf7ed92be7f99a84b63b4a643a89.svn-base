@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkl.kklplus.b2b.sf.mapper.OrderExpressMapper">
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO sf_order_express(
+			b2b_order_id,
+			waybill_no,
+			task_code,
+			time,
+			service_type,
+			pickup_zone,
+			pickup_contact,
+			pickup_phone,
+			pickup_address,
+			receive_contact,
+			receive_phone,
+			receive_province,
+			receive_city,
+			receive_county,
+			receive_address,
+			create_by,
+			create_date,
+			quarter
+		) VALUES (
+			#{b2bOrderId},
+			#{waybillNo},
+			#{taskCode},
+			#{time},
+			#{serviceType},
+			#{pickupZone},
+			#{pickupContact},
+			#{pickupPhone},
+			#{pickupAddress},
+			#{receiveContact},
+			#{receivePhone},
+			#{receiveProvince},
+			#{receiveCity},
+			#{receiveCounty},
+			#{receiveAddress},
+			#{createById},
+			#{createDt},
+			#{quarter}
+		)
+    </insert>
+
+</mapper>

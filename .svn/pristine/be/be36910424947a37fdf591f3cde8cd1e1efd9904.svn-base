@@ -1,0 +1,107 @@
+---
+server:
+  port: 8894
+spring:
+  profiles: dev
+  application:
+    name: kklplus-b2b-sf
+  # 数据源配置
+  #https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://119.23.43.232:18355/kklplus_b2b_sf?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: b2bsf
+    password: Sf.123abc
+    hikari:
+      minimumIdle: 20
+      maximumPoolSize: 50
+      autoCommit: true
+      idleTimeout: 300000
+      poolName: kklplus-web
+      maxLifetime: 1800000
+      connectionTimeout: 600000
+      connectionTestQuery: SELECT 1
+  rabbitmq:
+#    host: 192.168.1.162
+#    port: 5672
+#    username: admin
+#    password: admin
+    host: 119.23.43.232
+    port: 37777
+    username: by
+    password: rabbitmq@BY123
+    publisher-confirms: true
+    cache:
+      connection:
+        mode: channel
+    listener:
+      simple:
+        auto-startup: true
+        acknowledge-mode: manual
+        concurrency: 10
+        max-concurrency: 100
+        prefetch: 1
+    template:
+      retry:
+        initial-interval: 5000
+        max-attempts: 3
+        max-interval: 50000
+        multiplier: 1
+eureka:
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      zone: dev
+      function: kklplus-b2b-sf
+  client:
+    serviceUrl:
+      defaultZone: http://dev:dev.123@192.168.1.162:8800/eureka/
+    healthcheck:
+      enabled: true
+info:
+  app:
+    name: ${spring.application.name}
+    desc: B2B SF服务
+  version: '0.0.1'
+management:
+  security:
+    enabled: false
+    roles: SUPERUSER
+mybatis:
+  type-aliases-package: com.kkl.kklplus.entity.sf
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    org.mybatis: debug
+    com.kkl.kklplus: debug
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+sf:
+  ##线程池配置， 用于异步回传图片
+  thread-pool:
+    core-pool-size: 1
+    max-pool-size: 12
+    keep-alive-seconds: 60
+    queue-capacity: 25
+  okhttp:
+    connect-timeout: 10
+    read-timeout: 10
+    write-timeout: 10
+    ping-interval: 0
+    retry-on-connection-failure: true
+  data-source-config:
+    ## 客户配置信息
+    request-main-url: https://sfapi.sit.sf-express.com:45273/std/service
+    partnerID: fop_test
+    md5Key: 2Z7YPBNG2CKKBV17
+    clientCode: 1
+    scheduleEnabled: false
+
+

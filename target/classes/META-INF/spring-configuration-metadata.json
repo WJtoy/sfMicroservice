@@ -1,0 +1,29 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties",
+      "name": "sf",
+      "type": "com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties"
+    },
+    {
+      "sourceType": "com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties",
+      "name": "sf.data-source-config",
+      "sourceMethod": "getDataSourceConfig()",
+      "type": "com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties$DataSourceConfig"
+    },
+    {
+      "sourceType": "com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties",
+      "name": "sf.okhttp",
+      "sourceMethod": "getOkhttp()",
+      "type": "com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties$OkHttpProperties"
+    },
+    {
+      "sourceType": "com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties",
+      "name": "sf.thread-pool",
+      "sourceMethod": "getThreadPool()",
+      "type": "com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties$ThreadPoolProperties"
+    }
+  ],
+  "properties": []
+}

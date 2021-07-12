@@ -1,0 +1,287 @@
+package com.kkl.kklplus.b2b.sf.service;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.kkl.kklplus.b2b.sf.entity.ApiOperationResponseData;
+import com.kkl.kklplus.b2b.sf.entity.InstallTypeDto;
+import com.kkl.kklplus.b2b.sf.entity.OrderInfo;
+import com.kkl.kklplus.b2b.sf.entity.OrderRequestData;
+import com.kkl.kklplus.b2b.sf.mapper.OrderInfoMapper;
+import com.kkl.kklplus.b2b.sf.mq.sender.B2BCenterOrderProcessMQSend;
+import com.kkl.kklplus.b2b.sf.mq.sender.B2BOrderMQSender;
+import com.kkl.kklplus.b2b.sf.utils.GsonUtils;
+import com.kkl.kklplus.common.exception.MSErrorCode;
+import com.kkl.kklplus.common.response.MSResponse;
+import com.kkl.kklplus.entity.b2bcenter.md.B2BDataSourceEnum;
+import com.kkl.kklplus.entity.b2bcenter.pb.MQB2BOrderMessage;
+import com.kkl.kklplus.entity.b2bcenter.pb.MQB2BOrderProcessMessage;
+import com.kkl.kklplus.entity.b2bcenter.sd.B2BOrder;
+import com.kkl.kklplus.entity.b2bcenter.sd.B2BOrderActionEnum;
+import com.kkl.kklplus.entity.b2bcenter.sd.B2BOrderSearchModel;
+import com.kkl.kklplus.entity.b2bcenter.sd.B2BOrderTransferResult;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Slf4j
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
+public class OrderInfoService {
+
+    @Autowired
+    private B2BCenterOrderProcessMQSend orderProcessMQSend;
+
+    @Autowired
+    private B2BOrderMQSender b2BOrderMQSender;
+
+    @Resource
+    private OrderInfoMapper orderInfoMapper;
+
+    /**
+     * 获取某一页的康宝工单信息
+     * @param workcardSearchModel
+     * @return
+     */
+    public Page<OrderInfo> getList(B2BOrderSearchModel workcardSearchModel) {
+        if (workcardSearchModel.getPage() != null) {
+            PageHelper.startPage(workcardSearchModel.getPage().getPageNo(), workcardSearchModel.getPage().getPageSize());
+            return orderInfoMapper.getList(workcardSearchModel);
+        }else {
+            return null;
+        }
+    }
+
+    public List<OrderInfo> findOrdersProcessFlag(List<B2BOrderTransferResult> orderTransferResults) {
+        List<Long> ids = new ArrayList<>();
+        for(B2BOrderTransferResult orderTransferResult : orderTransferResults){
+            Long id = orderTransferResult.getB2bOrderId();
+            ids.add(id);
+        }
+        return orderInfoMapper.findOrdersProcessFlagByIds(ids);
+    }
+
+    @Transactional()
+    public void updateTransferResult(List<OrderInfo> wis) {
+        for(OrderInfo orderInfo:wis){
+            orderInfoMapper.updateTransferResult(orderInfo);
+        }
+    }
+
+    /**
+     * 添加数据同时返回需要回传的工单信息
+     */
+    //@Transactional()
+
+
+    public void insert(OrderInfo orderInfo){
+        orderInfoMapper.insert(orderInfo);
+    }
+
+    /**
+     * 判断订单号是否存在
+     * @param taskCode   订单号
+     * @return 1:存在  0:不存在
+     */
+    public OrderInfo findOrderInfo(String taskCode) {
+        return orderInfoMapper.findOrderByTaskCode(taskCode);
+    }
+
+    public MSResponse validationData(B2BOrder b2BOrder) {
+        MSResponse msResponse = new MSResponse(MSErrorCode.SUCCESS);
+        if(b2BOrder == null){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("工单资料不能为空！");
+            return msResponse;
+        }
+        String orderNo = b2BOrder.getOrderNo();
+        if(StringUtils.isEmpty(orderNo)){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("工单编号orderNo不能为空！");
+            return msResponse;
+        }
+        String shopId = b2BOrder.getShopId();
+        if(StringUtils.isEmpty(shopId)){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("商铺shopId不能为空！");
+            return msResponse;
+        }
+        String userName = b2BOrder.getUserName();
+        if(StringUtils.isEmpty(userName)){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("买家姓名userName不能为空！");
+            return msResponse;
+        }
+        String userMobile = b2BOrder.getUserMobile();
+        if(StringUtils.isEmpty(userMobile)){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("买家电话userMobile不能为空！");
+            return msResponse;
+        }
+        String userProvince = b2BOrder.getUserProvince();
+        if(StringUtils.isEmpty(userProvince)){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("地址省份userProvince不能为空！");
+            return msResponse;
+        }
+        String userCity = b2BOrder.getUserCity();
+        if(StringUtils.isEmpty(userCity)){
+            b2BOrder.setUserCity("");
+        }
+        String userCounty = b2BOrder.getUserCounty();
+        if(StringUtils.isEmpty(userCounty)){
+            b2BOrder.setUserCounty("");
+        }
+        String userAddress = b2BOrder.getUserAddress();
+        if(StringUtils.isEmpty(userAddress)){
+            msResponse.setMsg("详细地址userAddress不能为空！");
+            return msResponse;
+        }
+        String serviceType = b2BOrder.getServiceType();
+        if(StringUtils.isEmpty(serviceType)){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("服务类型serviceType不能为空！");
+            return msResponse;
+        }
+        String warrantyType = b2BOrder.getWarrantyType();
+        if(StringUtils.isEmpty(warrantyType)){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("质保类型warrantyType不能为空！");
+            return msResponse;
+        }
+        List<B2BOrder.B2BOrderItem> items = b2BOrder.getItems();
+        if(items == null || items.size() <= 0){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("产品集合items不能为空！");
+        }
+        boolean itemFlag = false;
+        for(B2BOrder.B2BOrderItem item : items){
+            String itemCode = item.getProductCode();
+            String itemName = item.getProductName();
+            Integer qty = item.getQty();
+            if(StringUtils.isEmpty(itemCode)
+                    || StringUtils.isEmpty(itemName)||
+                    qty == null || qty <=0){
+                itemFlag = true;
+            }
+        }
+        if(itemFlag){
+            msResponse.setErrorCode(MSErrorCode.FAILURE);
+            msResponse.setMsg("产品数据错误！");
+        }
+        return msResponse;
+    }
+
+    public void cancelledOrder(B2BOrderTransferResult workcardTransferResults) {
+        orderInfoMapper.cancelledOrder(workcardTransferResults);
+    }
+
+    /**
+     * 取消工单（B2B取消）
+     * @param remark
+     * @param id
+     * @param processFlag
+     * @param updateDt
+     */
+    public void cancelOrderFormB2B(String remark, Long id, int processFlag,Long updateDt) {
+        orderInfoMapper.cancelOrderFormB2B(remark,id,processFlag,updateDt);
+    }
+
+    public ApiOperationResponseData processOrder(String msgData) {
+        ApiOperationResponseData responseData = new ApiOperationResponseData();
+        try {
+            OrderRequestData orderRequestData = GsonUtils.getInstance().fromJson(msgData, OrderRequestData.class);
+            OrderInfo oInfo = findOrderInfo(orderRequestData.getTaskCode());
+            if(oInfo != null){
+                String status = orderRequestData.getStatus();
+                if("1".equals(status)){
+                    return responseData;
+                }
+                Long kklOrderId = oInfo.getKklOrderId();
+                if(kklOrderId != null && kklOrderId > 0){
+                    MQB2BOrderProcessMessage.B2BOrderProcessMessage processMessage =
+                            MQB2BOrderProcessMessage.B2BOrderProcessMessage.newBuilder()
+                                    .setMessageId(System.currentTimeMillis())
+                                    .setB2BOrderNo(oInfo.getWaybillNo())
+                                    .setKklOrderId(kklOrderId)
+                                    .setB2BOrderId(oInfo.getId())
+                                    .setDataSource(B2BDataSourceEnum.MQI.id)
+                                    .setActionType(B2BOrderActionEnum.CONVERTED_CANCEL.value).build();
+                    orderProcessMQSend.send(processMessage);
+                }else{
+                    cancelOrderFormB2B("顺丰主动取消",oInfo.getId(),5,System.currentTimeMillis());
+                }
+            }else {
+                OrderInfo orderInfo = parseOrderInfo(orderRequestData);
+                this.insert(orderInfo);
+                sendAutoTransfer(orderInfo);
+            }
+        }catch (Exception e){
+            responseData.setSuccess(false);
+            responseData.setErrorMessage("json解析异常");
+        }
+        return responseData;
+    }
+
+    /**
+     * 自动转单
+     * @param orderInfo
+     */
+    private void sendAutoTransfer(OrderInfo orderInfo) {
+        MQB2BOrderMessage.B2BOrderMessage.Builder builder = MQB2BOrderMessage.B2BOrderMessage.newBuilder()
+                .setId(orderInfo.getId())
+                .setDataSource(B2BDataSourceEnum.MQI.id)
+                .setOrderNo(orderInfo.getTaskCode())
+                .setParentBizOrderId(orderInfo.getCustomOrderId())
+                .setShopId("")
+                .setUserName(orderInfo.getReceiverName())
+                .setUserMobile(orderInfo.getReceiverPhone())
+                .setUserAddress(orderInfo.getReceiverName())
+                .setDescription(StringUtils.trimToEmpty(orderInfo.getRemark()))
+                .setQuarter(orderInfo.getQuarter());
+        for(InstallTypeDto product:orderInfo.getInstallTypes()){
+            MQB2BOrderMessage.B2BOrderItem b2BOrderItem = MQB2BOrderMessage.B2BOrderItem.newBuilder()
+                    .setProductCode(product.getInstallTypeCode())
+                    .setProductName(product.getInstallTypeName())
+                    .setServiceType(orderInfo.getServiceType().toString())
+                    .setWarrantyType("保内")
+                    .setQty(product.getCount())
+                    .build();
+            builder.addB2BOrderItem(b2BOrderItem);
+        }
+        MQB2BOrderMessage.B2BOrderMessage b2BOrderMessage = builder.build();
+        //调用转单队列
+        b2BOrderMQSender.send(b2BOrderMessage);
+    }
+
+    private OrderInfo parseOrderInfo(OrderRequestData data) {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setWaybillNo(data.getWaybillNo());
+        orderInfo.setTaskCode(data.getTaskCode());
+        orderInfo.setSubWaybillNos(data.getSubWaybillNos());
+        orderInfo.setOrderSource(data.getOrderSource());
+        orderInfo.setCustomOrderId(data.getCustomOrderId());
+        orderInfo.setCargoName(data.getCargoName());
+        orderInfo.setTotalVolume(data.getTotalVolume());
+        orderInfo.setTotalWeight(data.getTotalWeight());
+        orderInfo.setReceiverName(data.getReceiverName());
+        orderInfo.setReceiverPhone(data.getReceiverPhone());
+        orderInfo.setReceiverAddress(data.getReceiverAddress());
+        orderInfo.setPackageCount(data.getPackageCount());
+        orderInfo.setVersion(data.getVersion());
+        orderInfo.setStatus(data.getStatus());
+        orderInfo.setServiceType(data.getServiceType());
+        orderInfo.setRemark(data.getRemark());
+        orderInfo.setInstallTypes(data.getInstallTypes());
+        orderInfo.setInstallTypesJson(GsonUtils.getInstance().toGson(data.getInstallTypes()));
+        orderInfo.setExtendInfo(data.getExtendInfo());
+        orderInfo.preInsert();
+        return orderInfo;
+    }
+}

@@ -1,0 +1,110 @@
+package com.kkl.kklplus.b2b.sf.controller;
+
+import com.google.gson.Gson;
+import com.kkl.kklplus.b2b.sf.entity.*;
+import com.kkl.kklplus.b2b.sf.http.config.B2BSFProperties;
+import com.kkl.kklplus.b2b.sf.http.utils.OkHttpUtils;
+import com.kkl.kklplus.b2b.sf.service.B2BProcesslogService;
+import com.kkl.kklplus.b2b.sf.service.OrderExpressService;
+import com.kkl.kklplus.b2b.sf.service.OrderInfoService;
+import com.kkl.kklplus.b2b.sf.service.SysLogService;
+import com.kkl.kklplus.b2b.sf.utils.GsonUtils;
+import com.kkl.kklplus.b2b.sf.utils.QuarterUtils;
+import com.kkl.kklplus.entity.b2b.common.B2BProcessFlag;
+import com.kkl.kklplus.entity.b2bcenter.rpt.B2BOrderProcesslog;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+@Slf4j
+@RestController
+@RequestMapping("/sf")
+public class SFController {
+
+    @Autowired
+    private OrderInfoService orderInfoService;
+
+    @Autowired
+    private OrderExpressService orderExpressService;
+
+    @Autowired
+    private SysLogService sysLogService;
+
+    @Autowired
+    private B2BProcesslogService b2BProcesslogService;
+
+    @Autowired
+    private B2BSFProperties sfProperties;
+
+    @PostMapping("/")
+    public ApiResponseData pushOrder(HttpServletRequest req) throws IOException {
+        String json = getRequestJson(req);
+        ApiRequestData requestData;
+        try {
+            requestData = GsonUtils.getInstance().fromJson(json,ApiRequestData.class);
+            if(requestData == null ||
+                    StringUtils.isBlank(requestData.getLogisticID()) ||
+                    StringUtils.isBlank(requestData.getServiceCode()) ||
+                    StringUtils.isBlank(requestData.getMsgData()) ||
+                    requestData.getTimestamp()==null){
+                return new ApiResponseData(ApiErrorCode.A1001);
+            }
+            String msgDigestV = OkHttpUtils.genDigest(requestData.getTimestamp().toString(), requestData.getMsgData(), sfProperties.getDataSourceConfig().getMd5Key());
+            String msgDigest = requestData.getMsgDigest();
+            if(msgDigest == null || !msgDigest.equals(msgDigestV)){
+                return new ApiResponseData(ApiErrorCode.A1006);
+            }
+        }catch (Exception e){
+            return new ApiResponseData(ApiErrorCode.A1008);
+        }
+        // 保存SF发送过来的原始数据
+        B2BOrderProcesslog processlog = new B2BOrderProcesslog();
+        try {
+            processlog.setInterfaceName(requestData.getServiceCode());
+            processlog.setInfoJson(requestData.getMsgData());
+            processlog.setProcessFlag(B2BProcessFlag.PROCESS_FLAG_ACCEPT.value);
+            processlog.preInsert();
+            processlog.setQuarter(QuarterUtils.getQuarter(processlog.getCreateDt()));
+            b2BProcesslogService.insert(processlog);
+        } catch(Exception ex) {
+            log.error("info:{}",requestData.getMsgData(),ex);
+            sysLogService.insert(1L, requestData.getMsgData(), ex.getMessage(),
+                    "推送数据保存异常",requestData.getServiceCode(), "POST");
+        }
+        ApiResponseData responseData = new ApiResponseData(ApiErrorCode.A1000);
+        String msgData = requestData.getMsgData();
+        String serviceCode = requestData.getServiceCode();
+        if("FOP_PUSH_FIS_ORDER".equals(serviceCode)){
+            responseData.setData(orderInfoService.processOrder(msgData));
+        }else if("FOP_PUSH_FIS_DELIVERY_NOTICE".equals(serviceCode)){
+            responseData.setData(orderExpressService.processExpress(msgData));
+        }
+        b2BProcesslogService.updateProcessResult(processlog,responseData.getData());
+        return responseData;
+    }
+
+    private String getRequestJson(HttpServletRequest req) throws IOException {
+        // 读取参数
+        InputStream inputStream;
+        StringBuffer sb = new StringBuffer();
+        inputStream = req.getInputStream();
+        String s;
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+        while ((s = in.readLine()) != null) {
+            sb.append(s);
+        }
+        in.close();
+        inputStream.close();
+        String json = sb.toString();
+        return json;
+    }
+}
